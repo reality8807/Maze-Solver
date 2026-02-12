@@ -1,0 +1,47 @@
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f2f2f2;
+  font-family: Arial;
+}
+
+#controls {
+  margin-bottom: 15px;
+}
+
+button {
+  padding: 8px 14px;
+  margin: 5px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.clicked {
+  background-color: darkgrey;
+  border-style: inset;
+  color: white;
+}
+
+#frame {
+  width: 520px;
+  height: 250px;
+  background: white;
+  border: 3px solid #333;
+  display: grid;
+  resize: both;
+  overflow: hidden;
+  user-select: none;
+}
+
+.cell {
+  border: 1px solid #ccc;
+}
+
+.boundary { background: darkgray; }
+.start { background: red; }
+.end { background: mediumseagreen; }
+.path {background: yellow; }
