@@ -99,10 +99,10 @@ let buttons = [boundary_btn, start_btn, end_btn, erase_btn];
 document.getElementById("export").onclick = sendGridToPython;
 
 btn_frame.addEventListener("click", function (e) {
-  let btns = e.target.closest("button");
-  if (!btns) return;
+  let target_btn = e.target.closest("button");
+  if (!target_btn) return;
 
-  id_name = btns.id;
+  id_name = target_btn.id;
 
   for (let btn of buttons) {
     if (btn.id === id_name) {
@@ -116,6 +116,8 @@ btn_frame.addEventListener("click", function (e) {
   }
 });
 
+let solved_grid = null;
+
 function sendGridToPython() {
   fetch("http://localhost:8000/grid", {
     method: "POST",
@@ -128,11 +130,58 @@ function sendGridToPython() {
   })
     .then((res) => res.json())
     .then((data) => {
-      for (row of data.backtrack) {
-        let data_cell = frame.querySelector(`[data-row="${row[0]}"][data-col="${row[1]}"]`);
-        data_cell.classList.add("path");
+      if (data === null) {
+        alert("No Solution!");
+        return;
       }
+      solved_grid = data;
+      document.getElementById("searches").classList.remove("hidden")
     });
+}
+
+dfs_btn = document.getElementById("dfs");
+bfs_btn = document.getElementById("bfs");
+greedy_btn = document.getElementById("greedy");
+
+
+dfs_btn.onclick = show_solution_dfs;
+bfs_btn.onclick = show_solution_bfs;
+greedy_btn.onclick = show_solution_greedy;
+
+function show_solution_dfs() {
+  const old_path = frame.querySelectorAll(".cell.path");
+  old_path.forEach((cell) => {
+    cell.classList.remove("path");
+  });
+
+  for (row of solved_grid.dfs[2]) {
+    let data_cell = frame.querySelector(`[data-row="${row[0]}"][data-col="${row[1]}"]`);
+    data_cell.classList.add("path");
+  }
+}
+
+function show_solution_bfs() {
+  const old_path = frame.querySelectorAll(".cell.path");
+  old_path.forEach((cell) => {
+    cell.classList.remove("path");
+  });
+
+  for (row of solved_grid.bfs[2]) {
+    let data_cell = frame.querySelector(`[data-row="${row[0]}"][data-col="${row[1]}"]`);
+    data_cell.classList.add("path");
+  }
+}
+
+function show_solution_greedy() {
+  const old_path = frame.querySelectorAll(".cell.path");
+  old_path.forEach((cell) => {
+    cell.classList.remove("path");
+  });
+
+  for (row of solved_grid.greedy[2]) {
+    let data_cell = frame.querySelector(`[data-row="${row[0]}"][data-col="${row[1]}"]`);
+    data_cell.classList.add("path");
+  }
 }
 
 // ---------- Resize Observer ----------
