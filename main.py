@@ -20,7 +20,7 @@ class GridPayload(BaseModel):
     grid: list[list[str]]
 
 
-@app.get("/grid")
+@app.post("/grid")
 async def receive_grid(payload: GridPayload) -> dict | None:
     grid = payload.grid
 
