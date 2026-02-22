@@ -3,6 +3,7 @@ from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
+from pathlib import Path
 from search_algorithms.dfs import DFS
 from search_algorithms.bfs import BFS
 from search_algorithms.greedy import Greedy
@@ -17,11 +18,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.mount("/frontend", StaticFiles(directory="frontend"), name="frontend")
+BASE_DIR = Path(__file__).resolve().parent
+app.mount("/frontend", StaticFiles(directory=BASE_DIR / "frontend"), name="frontend")
 
 @app.get("/")
 def read_index():
-    return FileResponse("index.html")
+    return FileResponse(BASE_DIR / "frontend" / "index.html")
 
 
 class GridPayload(BaseModel):
