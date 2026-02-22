@@ -137,7 +137,7 @@ function sendGridToPython() {
     return;
   }
 
-  fetch("https://maze-solver-gi3u.onrender.com/endpoint", {
+  fetch("https://maze-solver-gi3u.onrender.com/grid", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
