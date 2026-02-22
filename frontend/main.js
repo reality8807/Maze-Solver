@@ -156,10 +156,6 @@ function show_solution(search_type) {
     cell.textContent = null;
   });
 
-  // for (row of search_type[2]) {
-  //   let data_cell = frame.querySelector(`[data-row="${row[0]}"][data-col="${row[1]}"]`);
-  //   data_cell.classList.add("path");
-  // }
   if (search_type.length === 4) {
     for ([index, row] of search_type[2].entries()) {
       let data_cell = frame.querySelector(`[data-row="${row[0]}"][data-col="${row[1]}"]`);

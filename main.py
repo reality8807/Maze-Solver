@@ -1,7 +1,10 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
-from search import DFS, BFS, Greedy, A_star
+from search_algorithms.dfs import DFS
+from search_algorithms.bfs import BFS
+from search_algorithms.greedy import Greedy
+from search_algorithms.a_star import A_star
 
 app = FastAPI()
 
