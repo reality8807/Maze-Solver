@@ -135,52 +135,43 @@ function sendGridToPython() {
         return;
       }
       solved_grid = data;
-      document.getElementById("searches").classList.remove("hidden")
+      document.getElementById("searches").classList.remove("hidden");
     });
 }
 
 dfs_btn = document.getElementById("dfs");
 bfs_btn = document.getElementById("bfs");
 greedy_btn = document.getElementById("greedy");
+a_star_btn = document.getElementById("a_star");
 
+dfs_btn.onclick = () => show_solution(solved_grid.dfs);
+bfs_btn.onclick = () => show_solution(solved_grid.bfs);
+greedy_btn.onclick = () => show_solution(solved_grid.greedy);
+a_star_btn.onclick = () => show_solution(solved_grid.a_star);
 
-dfs_btn.onclick = show_solution_dfs;
-bfs_btn.onclick = show_solution_bfs;
-greedy_btn.onclick = show_solution_greedy;
-
-function show_solution_dfs() {
+function show_solution(search_type) {
   const old_path = frame.querySelectorAll(".cell.path");
   old_path.forEach((cell) => {
     cell.classList.remove("path");
+    cell.textContent = null;
   });
 
-  for (row of solved_grid.dfs[2]) {
-    let data_cell = frame.querySelector(`[data-row="${row[0]}"][data-col="${row[1]}"]`);
-    data_cell.classList.add("path");
-  }
-}
-
-function show_solution_bfs() {
-  const old_path = frame.querySelectorAll(".cell.path");
-  old_path.forEach((cell) => {
-    cell.classList.remove("path");
-  });
-
-  for (row of solved_grid.bfs[2]) {
-    let data_cell = frame.querySelector(`[data-row="${row[0]}"][data-col="${row[1]}"]`);
-    data_cell.classList.add("path");
-  }
-}
-
-function show_solution_greedy() {
-  const old_path = frame.querySelectorAll(".cell.path");
-  old_path.forEach((cell) => {
-    cell.classList.remove("path");
-  });
-
-  for (row of solved_grid.greedy[2]) {
-    let data_cell = frame.querySelector(`[data-row="${row[0]}"][data-col="${row[1]}"]`);
-    data_cell.classList.add("path");
+  // for (row of search_type[2]) {
+  //   let data_cell = frame.querySelector(`[data-row="${row[0]}"][data-col="${row[1]}"]`);
+  //   data_cell.classList.add("path");
+  // }
+  if (search_type.length === 4) {
+    for ([index, row] of search_type[2].entries()) {
+      let data_cell = frame.querySelector(`[data-row="${row[0]}"][data-col="${row[1]}"]`);
+      data_cell.classList.add("path");
+      data_cell.textContent = search_type[3][index];
+    }
+  } else {
+    for (row of search_type[2]) {
+      let data_cell = frame.querySelector(`[data-row="${row[0]}"][data-col="${row[1]}"]`);
+      data_cell.classList.add("path");
+      data_cell.textContent = null;
+    }
   }
 }
 

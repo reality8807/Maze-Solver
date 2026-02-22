@@ -31,8 +31,8 @@ button {
 }
 
 #frame {
-  width: 520px;
-  height: 250px;
+  width: 500px;
+  height: 300px;
   background: white;
   border: 3px solid #333;
   display: grid;

@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
-from search import DFS, BFS, Greedy
+from search import DFS, BFS, Greedy, A_star
 
 app = FastAPI()
 
@@ -27,5 +27,6 @@ async def receive_grid(payload: GridPayload) -> dict | None:
 
     bfs = BFS(grid).solve()
     greedy = Greedy(grid).solve()
+    a_star = A_star(grid).solve()
 
-    return {"dfs": dfs, "bfs": bfs, "greedy": greedy}
+    return {"dfs": dfs, "bfs": bfs, "greedy": greedy, "a_star": a_star}
