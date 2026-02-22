@@ -54,7 +54,7 @@ class DFS():
             actions.append(node.action)
             node = node.parent
 
-        return [backtrack[::-1], actions[::-1], self.explored_set[1::]]
+        return [backtrack[-1:0:-1], actions[::-1], self.explored_set[1::]]
 
     def add_paths(self, r: int, c: int, node: Node) -> None:
         # up

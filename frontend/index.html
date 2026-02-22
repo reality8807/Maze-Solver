@@ -9,12 +9,13 @@
 </head>
 
 <body>
-    <div id="controls">
+    <div id="tools">
         <button id="boundary" class="clicked" disabled>Select Boundaries</button>
         <button id="start">Select Start</button>
         <button id="end">Select End</button>
         <button id="erase">Erase</button>
-        <button id="export">Export Python Grid</button>
+        <button id="export">Run</button>
+        <button id="clear">Clear</button>
     </div>
 
     <div id="frame"></div>
@@ -25,7 +26,15 @@
         <button id="greedy">Greedy Best First Search</button>
         <button id="a_star">A* Search</button>
     </div>
-    <script src="main.js"></script>
+    <label id="total" class="hidden">Total Moves: </label>
+    <!-- <div id="controls" class="">
+        <button id="beginning"><<</button>
+        <button id="previous"><</button>
+        <button id="next">></button>
+        <button id="ending">>></button>
+    </div> -->
+
+    <script src="index.js"></script>
 </body>
 
 </html>

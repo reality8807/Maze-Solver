@@ -9,6 +9,10 @@ let mode = "boundary";
 let start_flag = true;
 let end_flag = true;
 
+document.getElementById("clear").addEventListener("click", () => {
+  location.reload();
+});
+
 // ---------- Build Grid ----------
 function buildGrid() {
   const cols = Math.floor(frame.clientWidth / CELL_SIZE);
@@ -88,7 +92,7 @@ document.addEventListener("mousedown", (e) => {
 document.addEventListener("mouseup", () => (mouseDown = false));
 
 // ---------- Buttons ----------
-let btn_frame = document.getElementById("controls");
+let btn_frame = document.getElementById("tools");
 let boundary_btn = document.getElementById("boundary");
 let start_btn = document.getElementById("start");
 let end_btn = document.getElementById("end");
@@ -119,6 +123,20 @@ btn_frame.addEventListener("click", function (e) {
 let solved_grid = null;
 
 function sendGridToPython() {
+  a_present = false;
+  b_present = false;
+  for (row of gridData) {
+    for (col of row) {
+      if (col == "A") a_present = true;
+      else if (col == "B") b_present = true;
+    }
+  }
+
+  if (!(a_present && b_present)) {
+    alert("Select start and end");
+    return;
+  }
+
   fetch("http://localhost:8000/grid", {
     method: "POST",
     headers: {
@@ -136,6 +154,7 @@ function sendGridToPython() {
       }
       solved_grid = data;
       document.getElementById("searches").classList.remove("hidden");
+      document.getElementById("total").classList.remove("hidden");
     });
 }
 
@@ -150,8 +169,9 @@ greedy_btn.onclick = () => show_solution(solved_grid.greedy);
 a_star_btn.onclick = () => show_solution(solved_grid.a_star);
 
 function show_solution(search_type) {
-  const old_path = frame.querySelectorAll(".cell.path");
+  const old_path = frame.querySelectorAll(".cell.explored");
   old_path.forEach((cell) => {
+    cell.classList.remove("explored");
     cell.classList.remove("path");
     cell.textContent = null;
   });
@@ -159,17 +179,36 @@ function show_solution(search_type) {
   if (search_type.length === 4) {
     for ([index, row] of search_type[2].entries()) {
       let data_cell = frame.querySelector(`[data-row="${row[0]}"][data-col="${row[1]}"]`);
-      data_cell.classList.add("path");
+      data_cell.classList.add("explored");
       data_cell.textContent = search_type[3][index];
     }
   } else {
     for (row of search_type[2]) {
       let data_cell = frame.querySelector(`[data-row="${row[0]}"][data-col="${row[1]}"]`);
-      data_cell.classList.add("path");
+      data_cell.classList.add("explored");
       data_cell.textContent = null;
     }
   }
+  for (row of search_type[0]) {
+    let data_cell = frame.querySelector(`[data-row="${row[0]}"][data-col="${row[1]}"]`);
+    data_cell.classList.add("path");
+  }
+  document.getElementById("total").textContent = `Total Moves: ${search_type[2].length}`;
 }
+// next_btn = document.getElementById("next");
+// next_btn.onclick = () => next_btn_func(solved_grid.a_star)
+// function next_btn_func(search_type) {
+//   if (search_type.length === 4) {
+//     for ([index, row] of search_type[2].entries()) {
+//       let data_cell = frame.querySelector(`[data-row="${row[0]}"][data-col="${row[1]}"]`);
+//       if (!data_cell.classList.contains("path")) {
+//         data_cell.classList.add("path");
+//         data_cell.textContent = search_type[3][index];
+//         return;
+//       }
+//     }
+//   }
+// }
 
 // ---------- Resize Observer ----------
 new ResizeObserver(buildGrid).observe(frame);

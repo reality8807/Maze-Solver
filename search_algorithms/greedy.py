@@ -102,4 +102,4 @@ class Greedy:
             actions.append(node.action)
             node = node.parent
 
-        return [backtrack[::-1], actions[::-1], self.explored_set[1::], self.explored_set_d[1::]]
+        return [backtrack[-2:0:-1], actions[::-1], self.explored_set[1::], self.explored_set_d[1::]]
